@@ -15,6 +15,8 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../assets/scss/main.scss';
+
   @keyframes scaleIn {
     from { transform: scale(0); }
     to { transform: scale(1); }
@@ -34,15 +36,14 @@ export default {
       margin-top: auto;
     }
     &-text {
-      background: rgba(#120e1a, .35);
+      background: rgba($purple-dark, .50);
       padding: 12px 16px;
       border-radius: 4px;
       flex-basis: 80%;
       position: relative;
-      margin: 8px 0;
+      margin: 16px 0 0;
       z-index: 1;
-      /*color: #ba9278;*/
-      color: #d4c5ab;
+      color: $light-yellow;
       transform-origin: bottom left;
       animation: scaleIn .4s ease-in-out .1s both;
       span {
@@ -54,8 +55,8 @@ export default {
         bottom: 12px;
         left: -16px;
         border: solid 8px transparent;
-        border-bottom-color: rgba(#120e1a, .35);
-        border-right-color: rgba(#120e1a, .35);
+        border-bottom-color: rgba($purple-dark, .50);
+        border-right-color: rgba($purple-dark, .50);
         z-index: -1;
       }
     }
@@ -69,20 +70,23 @@ export default {
       text-align: right;
       .chat-question {
         &-text {
-          background: rgba(#120e1a, .5);
+          background: rgba($purple-dark, .75);
           transform-origin: bottom right;
-          color: white;
+          color: $white;
           &::after {
             left: auto;
             right: -16px;
-            border-bottom-color: rgba(#120e1a, .5);
+            border-bottom-color: rgba($purple-dark, .75);
             border-right-color: transparent;
-            border-left-color: rgba(#120e1a, .5);
+            border-left-color: rgba($purple-dark, .75);
           }
         }
         &-img {
           margin: 0 0 0 12px;
         }
+      }
+      + .sort-hat .chat-question-text {
+        margin-top: 0;
       }
     }
   }

@@ -10,7 +10,7 @@
       <img class="intro-illustration-img" :src="require('/src/assets/img/sorting-hat.png')">
       <span class="intro-illustration-glow"></span>
     </div>
-    <button class="intro-button" @click="start()">Start</button>
+    <span class="intro-button" @click="start()">Start</span>
   </section>
 </template>
 
@@ -27,6 +27,8 @@
 </script>
 
 <style lang="scss">
+  @import '../assets/scss/main.scss';
+
   @keyframes fadeout {
     from { opacity: 1; max-height: 400px; }
     50%  { opacity: 0 }
@@ -38,43 +40,65 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    flex-basis: 100%;
-    color: white;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    flex-basis: 70%;
+    @media (min-width: $medium-device-breakpoint) {
+      position: relative;
+      flex-basis: 0;
+    }
     &-text {
-      font-size: 22px;
+      font-size: 18px;
       line-height: 1.8;
       margin: 40px auto 32px;
       font-style: italic;
+      @media (min-width: $medium-device-breakpoint) { 
+        font-size: 22px;
+      }
 
     }
     &-button {
-      background: transparent;
-      border: solid 1px $grey;
-      color: white;
-      padding: 12px;
       min-width: 150px;
-      font-size: 16px;
-      font-family: merriweather;
-      cursor: pointer;
       position: relative;
-      border-radius: 4px;
       z-index: 1;
       text-transform: uppercase;
       font-weight: bold;
+      padding: 12px;
+      border-radius: 4px;
+      margin: 4px;
+      cursor: pointer;
+      background: $light-yellow;
+      color: #191426;
+      transition: background .1s;
+      &:hover {
+        @media (min-width: $medium-device-breakpoint) { 
+          background: $light-yellow-hover;
+        }
+      }
     }
     &-illustration {
       position: absolute;
       z-index: 1;
-      right: -90px;
-      bottom: -70px;
-      &-img, &-glow {
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      @media (min-width: $medium-device-breakpoint) { 
+        overflow: visible;
+      }
+      &-img {
         position: absolute;
         border: 0;
-        bottom: 0;
-        right: 0;
-        width: 750px;
+        width: 400px;
+        right: -120px;
+        bottom: -60px;
+        @media (min-width: $medium-device-breakpoint) { 
+          width: 550px;
+          bottom: -90px;
+          right: -390px;
+        }
       }
     }
   }

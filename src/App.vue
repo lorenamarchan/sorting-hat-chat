@@ -1,36 +1,35 @@
 <template>
-  <Title :small="started">Sorting Hat</Title>
+  <Title :small="start">Sorting Hat</Title>
   
-  <Intro @start="startChat" ref="intro" v-show="!started"/>
-  <Chat  v-show="started && !finished" @finish="finishChat" />
-  <Results :house="result" v-if="finished"/>
+  <Intro  v-if="!start"  @start="startChat" />
+  <Chat   v-if="start && !finish"  @finish="finishChat" />
+  <Result v-if="finish" :data="result" />
   
-  <div class="candles" v-show="started" key="candles">
+  <div class="candles" :class="{show: start}">
     <!-- left candles -->
     <Candle top="15%" left="10%" />
     <Candle top="25%" left="5%" />
     <Candle top="40%" left="15%" />
-    <Candle top="50%" left="25%" />
-    <Candle top="65%" left="5%" />
-    <Candle top="75%" left="15%" />
+    <Candle top="50%" left="20%" />
+    <Candle top="45%" left="5%" />
+    <Candle top="22%" left="15%" />
 
 
     <!-- right candles -->
     <Candle top="15%" right="20%" />
-    <Candle top="25%" right="10%" />
-    <Candle top="35%" right="25%" />
+    <Candle top="25%" right="15%" />
+    <Candle top="35%" right="20%" />
     <Candle top="50%" right="15%" />
-    <Candle top="70%" right="10%" />
-    <Candle top="80%" right="15%" />
+    <Candle top="10%" right="5%" />
+    <Candle top="34%" right="10%" />
   </div>
-
 </template>
 
 <script>
 
   import IntroComponent from './components/IntroComponent.vue'
   import ChatComponent from './components/ChatComponent.vue'
-  import ResultsComponent from './components/ResultsComponent.vue'
+  import ResultComponent from './components/ResultComponent.vue'
   import CandleComponent from './components/CandleComponent.vue'
   import TitleComponent from './components/TitleComponent.vue'
 
@@ -39,44 +38,32 @@
     components: { 
       Intro: IntroComponent,
       Chat: ChatComponent,
-      Results: ResultsComponent,
+      Result: ResultComponent,
       Candle: CandleComponent,
       Title: TitleComponent
     },
     data() {
       return {
-        started: false,
-        finished: false,
-        result: 'g'
+        start: false,
+        finish: false,
+        result: undefined
       }
     },
     methods: {
       startChat() {
-        this.started = true
+        this.start = true
       },
       finishChat(result) {
         this.result = result
-        this.finished = true
+        this.finish = true
       }
     }
   };
 </script>
 
 <style lang="scss">
-  
-  @font-face {
-    font-family: magicSchool;
-    src: url('/src/assets/fonts/magic-school.ttf');
-  }
-  @font-face {
-    font-family: merriweather;
-    src: url('/src/assets/fonts/Merriweather-Regular.ttf');
-  }
-  @font-face {
-    font-family: merriweather;
-    font-style: italic;
-    src: url('/src/assets/fonts/Merriweather-Italic.ttf');
-  }
+  @import 'assets/scss/main.scss';
+  $gradient: radial-gradient(circle, $purple-gradient-1 0%, $purple-gradient-2 35%, black 100%);
   /*style reset*/
   html, body {
     margin: 0;
@@ -94,15 +81,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100%;
-    background: #251d3b;
-    background: radial-gradient(circle,#251d3b 0%, #201930 35%, #11111d 100%);
-    font-family: merriweather;
-    padding-top: 32px;
+    background: $purple-gradient-1;
+    background:  $gradient;
+    background-image: url('/src/assets/img/bg.png'), $gradient;
+    background-size: cover;
+    font-family: $main-font;
+    padding-top: 16px;
+    color: $white;
+    @media (min-width: 768px) { 
+      padding-top: 40px;
+    }
     .candles {
-      @media (max-width: 650px) { 
-          display: none;
+      opacity: 0;
+      @media (max-width: $medium-device-breakpoint) { 
+        display: none;
       }
+    }
+    div.show {
+      transition: opacity .5s ease-in-out .5s;
+      opacity: 1;
     }
   
   }

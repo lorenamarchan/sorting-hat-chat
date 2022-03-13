@@ -1,7 +1,7 @@
 <template>
-  <section id="result" class="result">
-  <p class="result-text"> You belong to </p>
-  <div class="result-illustration" :class="{'show': house}">
+  <section class="result">
+  <p class="result-text">{{ name }}, You belong to </p>
+  <div class="result-illustration" :class="{'show': showHouse}" v-if="house">
     <img class="result-illustration-img" :src="require(`/src/assets/img/${result[house]?.shield}`)">
     <span class="result-illustration-glow" :style="{'background-color': result[house]?.color }"></span>
   </div>
@@ -11,10 +11,11 @@
 <script>
 
   export default {
-    name: "ResultsComponent",
+    name: "ResultComponent",
     components: { },
     data(){
       return {
+        showHouse: false,
         result: {
           g: {shield:'gryffindor.png', color: '#e55f73'},
           h: {shield:'hufflepuff.png', color: '#efc05d'},
@@ -24,28 +25,44 @@
       }
     },
     props: {
-      house: String
+      data: Object
+    },
+    computed: {
+      house(){
+        return this.data.house
+      },
+      name(){
+        return this.data.name
+      }
+    },
+    watch: {
+      house: {
+        immediate: true,
+        handler() {
+          setTimeout(() => this.showHouse = true, 1000)
+        }
+      }
     }
-  
   }
 
 </script>
 
 <style lang="scss">
+  @import '../assets/scss/main.scss';
+
   @keyframes glow {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.4); }
   }
   .result {
-    height: 100%;
     display: flex;
+    flex-basis: 100%;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     z-index: 1;
     position: relative;
     &-text {
-      color: white;
       font-size: 22px;
       font-style: italic;
     }
@@ -62,10 +79,9 @@
         height: 100%;
         width: auto;
       }
-      &-glow{
+      &-glow {
         height: 200px;
         width: 200px;
-        background: #ffcc66;
         border-radius: 50%;
         filter: blur(50px);
         z-index: -1;

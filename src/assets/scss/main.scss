@@ -1,0 +1,31 @@
+//fonts
+
+@font-face {
+  font-family: magicSchool;
+  src: url('/src/assets/fonts/magic-school.ttf');
+}
+@font-face {
+  font-family: merriweather;
+  src: url('/src/assets/fonts/Merriweather-Italic.ttf');
+}
+
+//font variables
+
+$title-font: magicSchool;
+$main-font: merriweather;
+
+//colors
+$white: #ffffff;
+$orange: #ff8844;
+$light-yellow: #ffcc66;
+$light-yellow-hover: #f4a83e;
+
+$purple-dark: #120e1a;
+$purple-shadow: #100c1a;
+$purple-gradient-1: #292041;
+$purple-gradient-2: #241c36;
+$purple-gradient-3: #11111d;
+
+//break points
+$medium-device-breakpoint: 768px;
+$large-device-breakpoint: 1200px;

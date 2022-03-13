@@ -23,8 +23,10 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../assets/scss/main.scss';
+
   @keyframes glow {
-    0%, 100% { transform: scale(.9); }
+    from, to { transform: scale(.9); }
     50% { transform: scale(1.2); }
   }
   @keyframes floating {
@@ -44,7 +46,7 @@ export default {
       height: 30px;
       width: 30px;
       top: -10px;
-      background: rgba(#ff8844, 20%);
+      background: rgba($orange, 20%);
       left: -10px;
       border-radius: 50%;
       z-index: -1;

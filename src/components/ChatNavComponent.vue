@@ -26,19 +26,20 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../assets/scss/main.scss';
   $size: 20px;
   .chat-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 12px 20px 0;
     font-size: 12px;
     span {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      color: #ffcc66;
+      color: $light-yellow;
       img {
         height: $size;
         width: $size;
