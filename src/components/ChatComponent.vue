@@ -30,7 +30,8 @@ export default {
       options: [],
       score: {g: 0, r: 0, h: 0, s: 0},
       chatOptionsVisible: false,
-      history: []
+      history: [],
+      historyScore: []
     }
   },
   watch: {
@@ -39,9 +40,14 @@ export default {
       handler(val) {
         setTimeout(() => {
           this.addQuestion(chatFlow[val].title)
-          this.setOptions(chatFlow[val].answers)
+          
+          //if just a text that is not a question, ex. "Great! Lets begin"
           if(chatFlow[val].continue){
             this.nQuestion++
+            
+          //if proper question
+          } else {
+            this.setOptions(chatFlow[val].answers)
           }
         }, 1500) //delay for animation
   
@@ -50,14 +56,14 @@ export default {
   },
   methods: {
     
-    //questions
+    //questions Fns
     
     addQuestion(text){
-      this._add('question', {text, type: 'sort-hat', img: 'sorting-hat.png'})
+      this._add('question', {text, type: 'sort-hat', img: 'sorting-hat-icon.png'})
     },
     
     addAnswer(text){
-      this._add('answer', {text, img: 'magic-wand.png'})
+      this._add('answer', {text, img: 'wizard-icon.png'})
     },
     
     _add(type, obj){
@@ -68,37 +74,47 @@ export default {
     },
     
     scrollDown(element){
-      element.scroll({
-        top: element.scrollHeight,
-        behavior: 'smooth'
-      })
+      if(element){
+        element.scroll({
+          top: element.scrollHeight,
+          behavior: 'smooth'
+        })
+      }
     },
 
-    //options
+    //options Fns
     
     submitText(name){
-      this.userName = name
-      this.addAnswer(name)
-      this.chatOptionsVisible = false
-      this.nQuestion++
+      if(this.chatOptionsVisible) {
+        this.chatOptionsVisible = false
+        
+        //stores name
+        this.userName = name
+        this.addAnswer(name)
+        this.historyScore.push({g: 0, r: 0, h: 0, s: 0})
+        this.nQuestion++
+      }
     },
     
     setOptions(options){
       this.options = options
-      this.chatOptionsVisible = true
+      setTimeout(()=>this.chatOptionsVisible = true)
     },
     
     selectOption(index){
       if(this.chatOptionsVisible) {
         this.chatOptionsVisible = false
+        
         //adds new score
         const answerScores = this.options[index].scores        
         Object.keys(this.score).map(house => this.score[house] += answerScores[house])  
-        
+        this.historyScore.push(answerScores)
+        console.log(this.score)
         //go to next question
         if(this.nQuestion < chatFlow.length - 1 ) {
           this.addAnswer(this.options[index].title)
           this.nQuestion++
+          
          //finish chat
         } else {
           this.$emit('finish', this.getResult())
@@ -106,21 +122,32 @@ export default {
       }
     },
         
-    //navigation
+    //navigation Fns
     
     goBack(){
-      const lastAnswer = this.history.reverse().find( obj => obj.type === 'answer')
+       this.chatOptionsVisible = false
+         
+      //removes question
+      const lastAnswer = this.history.reverse().find( obj => obj.type === 'answer')      
       this.questions = this.questions.filter(({id}) => id < lastAnswer.id)
-      this.history = this.history.filter(({id}) => id <= lastAnswer.id)
+      this.history = this.history.filter(({id}) => id <= lastAnswer.id) 
+      
+      //removes score
+      const lastScore = this.historyScore.pop()
+      Object.keys(this.score).map(house => this.score[house] -= lastScore[house])  
+      this.historyScore.pop()
+      //resets question
       this.nQuestion = lastAnswer.id
     },
     
     init(){
+      this.chatOptionsVisible = false
       this.questions = []
+      this.score = {g: 0, r: 0, h: 0, s: 0}
       this.nQuestion = 0
     },
     
-    //result handling
+    //result handling Fns
     
     getResult(){
       const sortedScore = Object.keys(this.score)

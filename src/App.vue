@@ -1,27 +1,12 @@
 <template>
-  <Title :small="start">Sorting Hat</Title>
+  <Title :small="start && !finish">Sorting Hat</Title>
   
   <Intro  v-if="!start"  @start="startChat" />
-  <Chat   v-if="start && !finish"  @finish="finishChat" />
+  <Chat   v-if="start && !finish" @finish="setResults" />
   <Result v-if="finish" :data="result" />
   
   <div class="candles" :class="{show: start}">
-    <!-- left candles -->
-    <Candle top="15%" left="10%" />
-    <Candle top="25%" left="5%" />
-    <Candle top="40%" left="15%" />
-    <Candle top="50%" left="20%" />
-    <Candle top="45%" left="5%" />
-    <Candle top="22%" left="15%" />
-
-
-    <!-- right candles -->
-    <Candle top="15%" right="20%" />
-    <Candle top="25%" right="15%" />
-    <Candle top="35%" right="20%" />
-    <Candle top="50%" right="15%" />
-    <Candle top="10%" right="5%" />
-    <Candle top="34%" right="10%" />
+    <Candle v-for="(p, i) in candlePositions"  :key="i" :top="p.top" :left="p.left" :right="p.right" />
   </div>
 </template>
 
@@ -46,14 +31,33 @@
       return {
         start: false,
         finish: false,
-        result: undefined
+        result: undefined,
+        candlePositions: [
+          //left
+          {top: 'calc(50% - 250px)', left: 'calc(50% - 400px)'},
+          {top: 'calc(50% - 180px)', left: 'calc(50% - 350px)'},
+          {top: 'calc(50% - 170px)', left: 'calc(50% - 450px)'},
+          {top: 'calc(50% - 100px)', left: 'calc(50% - 550px)'},
+          {top: '50%',               left: 'calc(50% - 300px)'},
+          {top: 'calc(50% - 55px)',  left: 'calc(50% - 350px)'},
+          {top: 'calc(50% - 20px)',  left: 'calc(50% - 450px)'},
+          //right
+          {top: 'calc(50% - 250px)', right: 'calc(50% - 400px)'},
+          {top: 'calc(50% - 180px)', right: 'calc(50% - 350px)'},
+          {top: 'calc(50% - 170px)', right: 'calc(50% - 450px)'},
+          {top: 'calc(50% - 100px)', right: 'calc(50% - 550px)'},
+          {top: '50%',               right: 'calc(50% - 300px)'},
+          {top: 'calc(50% - 55px)',  right: 'calc(50% - 350px)'},
+          {top: 'calc(50% - 20px)',  right: 'calc(50% - 450px)'}
+
+        ]
       }
     },
     methods: {
       startChat() {
         this.start = true
       },
-      finishChat(result) {
+      setResults(result) {
         this.result = result
         this.finish = true
       }
@@ -95,6 +99,11 @@
     }
     .candles {
       opacity: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      position: absolute;
+      pointer-events: none;
       @media (max-width: $medium-device-breakpoint) { 
         display: none;
       }

@@ -1,6 +1,6 @@
 <template>
   <section class="result">
-  <p class="result-text">{{ name }}, You belong to </p>
+  <p class="result-text">{{ name }}, you belong to </p>
   <div class="result-illustration" :class="{'show': showHouse}" v-if="house">
     <img class="result-illustration-img" :src="require(`/src/assets/img/${result[house]?.shield}`)">
     <span class="result-illustration-glow" :style="{'background-color': result[house]?.color }"></span>
@@ -62,9 +62,11 @@
     justify-content: center;
     z-index: 1;
     position: relative;
+    @media (min-width: $medium-device-breakpoint) {
+      flex-basis: 40%;
+    }
     &-text {
       font-size: 22px;
-      font-style: italic;
     }
     &-illustration {
       position: relative;
@@ -72,6 +74,7 @@
       height: 300px;
       transition: opacity .5s;
       opacity: 0;
+      text-align: center;
       &.show {
         opacity: 1;
       }

@@ -3,7 +3,7 @@
     <span v-for="(option, i) in options" :key="i" @click="selectOption(i)">
       {{option.title}}
     </span>
-    <div class="chat-options-input" v-if="!options" >
+    <div class="chat-options-input" v-if="!options">
       <input type="text" ref="input" placeholder="Write your answer here"> 
       <span @click="submitText()"><img :src="require('/src/assets/img/go.png')"></span>
     </div>
@@ -57,7 +57,10 @@ export default {
         }
       }
     }
-    span, &-input { opacity: 0; }
+    span, &-input { 
+      opacity: 0; 
+      pointer-events: none;
+    }
     &-input {
       display: flex;
       flex-basis: 100%;
@@ -93,6 +96,7 @@ export default {
       span, .chat-options-input {
         opacity: 1;
         transition: opacity 1s linear 1.25s;
+        pointer-events: all;
       }
     }
     

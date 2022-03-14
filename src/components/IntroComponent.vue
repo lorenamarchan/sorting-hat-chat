@@ -1,7 +1,7 @@
 <template>
   <section class="intro">
     <p class="intro-text">    
-      Slip me snug around your ears,<br>
+      — Slip me snug around your ears,<br>
       I've never yet been wrong,<br>
       I'll have alook inside your mind<br>
       And tell where you belong!<br>
@@ -51,7 +51,6 @@
       font-size: 18px;
       line-height: 1.8;
       margin: 40px auto 32px;
-      font-style: italic;
       @media (min-width: $medium-device-breakpoint) { 
         font-size: 22px;
       }

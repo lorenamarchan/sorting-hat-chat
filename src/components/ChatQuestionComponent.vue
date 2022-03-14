@@ -31,7 +31,6 @@ export default {
     align-items: flex-end;
     width: 100%;
     justify-content: flex-start;
-    font-style: italic;
     &:first-child {
       margin-top: auto;
     }
